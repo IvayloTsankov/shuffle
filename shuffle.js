@@ -1,4 +1,4 @@
-function Shuffle(container) {
+function Shuffle(pContainer) {
     var canvas = null;
     var container = null;
     var self = this;
@@ -12,7 +12,9 @@ function Shuffle(container) {
     };
 
     function init() {
-        canvas = document.createElement("canvas");
+        container = pContainer;
+
+        canvas = document.createElement('canvas');
         container.appendChild(canvas);
     };
 
@@ -26,7 +28,9 @@ function Shuffle(container) {
     };
 
     this.saveImage = function() {
-        var img = canvas.toDataURL("image/png");
+        var img = canvas.toDataURL('image/png');
+        img.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+        img.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=shuffle.png');
         window.location = img;
     };
 
