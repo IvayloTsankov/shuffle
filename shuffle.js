@@ -3,44 +3,60 @@ function Shuffle(pContainer) {
     var container = null;
     var self = this;
     var alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    var alphaHash = {};
+    var base_dir = 'images/';
+    var fileextension = '.png';
     var i = 0;
 
     var getImages = function() {
-        var base_dir = 'images/';
-        var fileextension = '.png';
+        var letter = alphabet[i];
+        if (i === alphabet.length || typeof(letter) === 'undefined') {
+            return;
+        }
 
-        var dir = base_dir + alphabet[i] + '/';
-        console.log('directory: ' + dir);
+        var dir = base_dir + letter + '/';
+        alphaHash[letter] = [];
+
         $.ajax({
-            //This will retrieve the contents of the folder if the folder is configured as 'browsable'
+            //This will retrieve the contents of the folder
+            //if the folder is configured as 'browsable'
             url: dir,
             success: function (data) {
                 //List all .png file names in the page
                 console.log(data);
                 $(data).find('a:contains(' + fileextension + ')').each(function () {
                     var filename = this.href.replace(window.location.href, '').replace('http://', '');
-                    $(container).append("<img src='" + dir + filename + "'>");
+                    var img = $("<img src='" + dir + filename + "'>")[0];
+                    alphaHash[letter].push(img);
+//                     $(container).append(img);
                 });
-
-                if (i == alphabet.length) {
-                    return;
-                }
 
                 getImages(alphabet[++i]);
             }
         });
     };
 
-    var listener = function() {
-
+    var registerListener = function() {
+        $('body').keypress(function (ev) {
+            var sign = String.fromCharCode(ev.which);
+            if (alphabet.indexOf(sign) !== -1) {
+                console.log(sign);
+                //drawLetter(sign);
+            }
+        });
     };
 
     function init() {
         container = pContainer;
-
         canvas = document.createElement('canvas');
         container.appendChild(canvas);
+
+        registerListener();
         getImages();
+    };
+
+    this.getHash = function() {
+        return alphaHash;
     };
 
     this.resize = function(w, h) {
