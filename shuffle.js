@@ -32,7 +32,7 @@ function Shuffle(pContainer) {
                     var filename = this.href.replace(window.location.href, '').replace('http://', '');
                     var img = $("<img src='" + dir + filename + "'>")[0];
                     alphaHash[letter].push(img);
-//                     $(container).append(img);
+                    $(container).append(img);
                 });
 
                 getImages(alphabet[++i]);
@@ -40,12 +40,50 @@ function Shuffle(pContainer) {
         });
     };
 
+    var getRandomInt = function(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    var getRandomImage = function(letter) {
+        if (!alphaHash || !alphaHash[letter] ||
+            alphaHash[letter].length === 0)
+        {
+            console.err('Fail to get images for letter: ', letter);
+            return;
+        }
+
+        if (!context) {
+            console.err('No context for canvas');
+            return;
+        }
+
+        // pick random image from available
+        var letterImages = alphaHash[letter];
+        var index = getRandomInt(0, letterImages.length - 1)
+        var img = letterImages[index];
+
+        if (!img) {
+            console.err('Images array overflow');
+        }
+
+        return img;
+    };
+
+    var drawLetter = function(letter) {
+        var image = getRandomImage(letter);
+
+        var width = getRandomInt(0, canvas.width);
+        var height = getRandomInt(0, canvas.height);
+
+        context.drawImage(image, width, height);
+    };
+
     var registerListener = function() {
         $('body').keypress(function (ev) {
             var sign = String.fromCharCode(ev.which);
             if (alphabet.indexOf(sign) !== -1) {
                 console.log(sign);
-                //drawLetter(sign);
+                drawLetter(sign);
             }
         });
     };
@@ -58,7 +96,7 @@ function Shuffle(pContainer) {
         // resize to full screen
         self.resize(window.innerWidth, window.innerHeight);
         container.append(canvas);
-        self.setBackground('red');
+        self.setBackground('white');
 
         registerListener();
         getImages();
