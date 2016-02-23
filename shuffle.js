@@ -1,6 +1,10 @@
 function Shuffle(pContainer) {
-    var canvas = null;
     var container = null;
+
+    var canvas = null;
+    var context = null;
+    var bgColor = null;
+
     var self = this;
     var alphabet = 'abcdefghijklmnopqrstuvwxyz';
     var alphaHash = {};
@@ -47,9 +51,14 @@ function Shuffle(pContainer) {
     };
 
     function init() {
-        container = pContainer;
-        canvas = document.createElement('canvas');
-        container.appendChild(canvas);
+        container = $(pContainer);
+        canvas = $('<canvas></canvas>')[0];
+        context = canvas.getContext('2d');
+
+        // resize to full screen
+        self.resize(window.innerWidth, window.innerHeight);
+        container.append(canvas);
+        self.setBackground('red');
 
         registerListener();
         getImages();
@@ -65,7 +74,7 @@ function Shuffle(pContainer) {
     };
 
     this.clear = function() {
-        setBackground('0xFFFFFF');
+        setBackground(bgColor);
     };
 
     this.saveImage = function() {
@@ -76,7 +85,8 @@ function Shuffle(pContainer) {
     };
 
     this.setBackground = function(color) {
-        canvas.style.background = color; 
+        bgColor = color;
+        canvas.style.backgroundColor = bgColor;
     }
 
     init();
