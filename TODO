@@ -1,0 +1,13 @@
+MUST:
+    Implement canvas png display
+    Implement listening for keys
+    Implement Save image
+    Implement Clear button
+
+    Style buttons
+    Style header
+
+SHOULD:
+    Add loader
+    Add canvas background
+    Add header slider up/down on hover (slide up on button hit)
