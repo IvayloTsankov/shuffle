@@ -1,9 +1,5 @@
 MUST:
-    Implement canvas png display
-    Implement listening for keys
     Implement Save image
-    Implement Clear button
-
     Style buttons
     Style header
 
