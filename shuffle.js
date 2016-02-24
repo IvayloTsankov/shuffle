@@ -92,7 +92,7 @@ function Shuffle(pContainer) {
             dstWidth = image.width / scaleFactor;
             dstHeight = image.height / scaleFactor;            
         } else {
-            var scaleFactor = getRandomInt(1, 3);
+            var scaleFactor = getRandomInt(1, 2);
             dstWidth = image.width * scaleFactor;
             dstHeight = image.height * scaleFactor;
         }
@@ -125,7 +125,8 @@ function Shuffle(pContainer) {
         context = canvas.getContext('2d');
 
         // resize to full screen
-        self.resize(window.innerWidth, window.innerHeight, 100);
+        console.log('shuffle(w: %d, h: %d)', container.width(), container.height());
+        self.resize(container.width(), container.height(), 100);
         container.append(canvas);
         self.setBackground('white');
 
