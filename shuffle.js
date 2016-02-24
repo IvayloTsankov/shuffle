@@ -2,6 +2,7 @@ function Shuffle(pContainer) {
     var container = null;
 
     var canvas = null;
+    var border = 0;
     var context = null;
     var bgColor = null;
 
@@ -72,10 +73,11 @@ function Shuffle(pContainer) {
     var drawLetter = function(letter) {
         var image = getRandomImage(letter);
 
-        var width = getRandomInt(0, canvas.width);
-        var height = getRandomInt(0, canvas.height);
+        var width = getRandomInt(0, canvas.width - border);
+        var height = getRandomInt(0, canvas.height - border);
+        var scaleFactor = getRandomInt(5, 20);
 
-        context.drawImage(image, width, height);
+        context.drawImage(image, width, height, image.width/scaleFactor, image.height/scaleFactor);
     };
 
     var registerListener = function() {
@@ -94,7 +96,7 @@ function Shuffle(pContainer) {
         context = canvas.getContext('2d');
 
         // resize to full screen
-        self.resize(window.innerWidth, window.innerHeight);
+        self.resize(window.innerWidth, window.innerHeight, 100);
         container.append(canvas);
         self.setBackground('white');
 
@@ -106,20 +108,23 @@ function Shuffle(pContainer) {
         return alphaHash;
     };
 
-    this.resize = function(w, h) {
+    this.resize = function(w, h, borderSize) {
+        console.log('canvas (w: %d, h: %d)', w, h);
         canvas.width = w;
         canvas.height = h;
+        if (borderSize) {
+            border = borderSize;
+        }
     };
 
     this.clear = function() {
-        setBackground(bgColor);
+        self.setBackground(bgColor);
     };
 
     this.saveImage = function() {
-        var img = canvas.toDataURL('image/png');
-        img.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
-        img.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=shuffle.png');
-        window.location = img;
+        var capture = canvas.toDataURL('image/png');
+        var href = capture.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+        return href;
     };
 
     this.setBackground = function(color) {
