@@ -73,33 +73,40 @@ function Shuffle(pContainer) {
     var drawLetter = function(letter) {
         var image = getRandomImage(letter);
 
+        // if we have a set border, substrack its width/height
+        // from canvas area
         var wlimit = canvas.width - border;
         wlimit = wlimit > 0 ? wlimit: 0;
 
         var hlimit = canvas.height - border;
         hlimit = hlimit > 0 ? hlimit: 0;
 
-        var width = getRandomInt(0, wlimit);
-        var height = getRandomInt(0, hlimit);
-
-//         if (width + image.width > canvas.width) {
-//             width -= Math.abs(image.width - canvas.width);
-//         }
-// 
-//         if (height+ image.height > canvas.height) {
-//             height -= Math.abs(image.height - canvas.height);
-//         }
+        var widthStart = getRandomInt(0, wlimit);
+        var heightStart = getRandomInt(0, hlimit);
+        var dstWidth = 0;
+        var dstHeight = 0;
 
         var operation = getRandomInt(0, 1);
-
         if (operation === 0) {
             var scaleFactor = getRandomInt(1, 5);
-            context.drawImage(image, width, height, image.width/scaleFactor, image.height/scaleFactor);
+            dstWidth = image.width / scaleFactor;
+            dstHeight = image.height / scaleFactor;            
         } else {
             var scaleFactor = getRandomInt(1, 3);
-            console.log('multiply');
-            context.drawImage(image, width, height, image.width*scaleFactor, image.height*scaleFactor);
+            dstWidth = image.width * scaleFactor;
+            dstHeight = image.height * scaleFactor;
         }
+
+        if (widthStart + dstWidth > canvas.width) {
+            widthStart -= Math.abs((widthStart + dstWidth) - canvas.width);
+        }
+
+        if (heightStart + dstHeight > canvas.height) {
+            heightStart -= Math.abs((heightStart + dstHeight) - canvas.height);
+        }
+
+
+        context.drawImage(image, widthStart, heightStart, dstWidth, dstHeight);
     };
 
     var registerListener = function() {
@@ -118,7 +125,7 @@ function Shuffle(pContainer) {
         context = canvas.getContext('2d');
 
         // resize to full screen
-        self.resize(window.innerWidth, window.innerHeight, 300);
+        self.resize(window.innerWidth, window.innerHeight, 100);
         container.append(canvas);
         self.setBackground('white');
 
