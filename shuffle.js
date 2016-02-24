@@ -73,11 +73,33 @@ function Shuffle(pContainer) {
     var drawLetter = function(letter) {
         var image = getRandomImage(letter);
 
-        var width = getRandomInt(0, canvas.width - border);
-        var height = getRandomInt(0, canvas.height - border);
-        var scaleFactor = getRandomInt(5, 20);
+        var wlimit = canvas.width - border;
+        wlimit = wlimit > 0 ? wlimit: 0;
 
-        context.drawImage(image, width, height, image.width/scaleFactor, image.height/scaleFactor);
+        var hlimit = canvas.height - border;
+        hlimit = hlimit > 0 ? hlimit: 0;
+
+        var width = getRandomInt(0, wlimit);
+        var height = getRandomInt(0, hlimit);
+
+//         if (width + image.width > canvas.width) {
+//             width -= Math.abs(image.width - canvas.width);
+//         }
+// 
+//         if (height+ image.height > canvas.height) {
+//             height -= Math.abs(image.height - canvas.height);
+//         }
+
+        var operation = getRandomInt(0, 1);
+
+        if (operation === 0) {
+            var scaleFactor = getRandomInt(1, 5);
+            context.drawImage(image, width, height, image.width/scaleFactor, image.height/scaleFactor);
+        } else {
+            var scaleFactor = getRandomInt(1, 3);
+            console.log('multiply');
+            context.drawImage(image, width, height, image.width*scaleFactor, image.height*scaleFactor);
+        }
     };
 
     var registerListener = function() {
@@ -96,7 +118,7 @@ function Shuffle(pContainer) {
         context = canvas.getContext('2d');
 
         // resize to full screen
-        self.resize(window.innerWidth, window.innerHeight, 100);
+        self.resize(window.innerWidth, window.innerHeight, 300);
         container.append(canvas);
         self.setBackground('white');
 
