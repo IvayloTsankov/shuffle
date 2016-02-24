@@ -16,10 +16,10 @@ window.onload = function() {
     var shuffle = new Shuffle(container);
     window.s = shuffle;
 
-//     save.on('click', function() {
-//         console.log('click save');
-//         this.href = shuffle.saveImage();
-//     });
+    save.on('click', function() {
+        console.log('click save');
+        location.href = shuffle.saveImage();
+    });
 
     clear.on('click', function() {
         shuffle.clear();

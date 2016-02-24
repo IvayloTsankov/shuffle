@@ -155,10 +155,10 @@ function Shuffle(pContainer) {
     };
 
     this.saveImage = function() {
-        var capture = canvas.toDataURL('image/png');
-        var href = capture.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
-        return href;
-    };
+        var data = canvas.toDataURL('image/png');
+        var capture = data.replace(/^data:image\/[^;]*/, 'data:application/octet-stream;');
+        return capture;
+   };
 
     this.setBackground = function(color) {
         bgColor = color;
