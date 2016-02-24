@@ -12,6 +12,16 @@ window.onload = function() {
         console.error('Fail to get container from DOM');
     }
 
+
     var shuffle = new Shuffle(container);
     window.s = shuffle;
+
+//     save.on('click', function() {
+//         console.log('click save');
+//         this.href = shuffle.saveImage();
+//     });
+
+    clear.on('click', function() {
+        shuffle.clear();
+    });
 };

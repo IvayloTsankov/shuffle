@@ -118,7 +118,10 @@ function Shuffle(pContainer) {
     };
 
     this.clear = function() {
-        self.setBackground(bgColor);
+        context.beginPath();
+        context.rect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = bgColor;
+        context.fill();
     };
 
     this.saveImage = function() {
@@ -129,7 +132,7 @@ function Shuffle(pContainer) {
 
     this.setBackground = function(color) {
         bgColor = color;
-        canvas.style.backgroundColor = bgColor;
+        self.clear();
     }
 
     init();
