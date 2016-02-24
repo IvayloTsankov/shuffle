@@ -6,7 +6,7 @@ window.onload = function() {
         console.error('Fail to get control buttons');
     }
 
-    var container = $('#container');
+    var container = ('body');
     if (typeof(container) === 'undefined' ||
         container === null) {
         console.error('Fail to get container from DOM');
