@@ -110,7 +110,7 @@ function Shuffle(pContainer) {
 
     var registerListener = function() {
         $('body').keypress(function (ev) {
-            var sign = String.fromCharCode(ev.which);
+            var sign = String.fromCharCode(ev.which).toLowerCase();
             if (alphabet.indexOf(sign) !== -1) {
                 console.log(sign);
                 drawLetter(sign);
