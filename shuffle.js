@@ -86,15 +86,15 @@ function Shuffle(pContainer) {
         var dstWidth = 0;
         var dstHeight = 0;
 
-        var operation = getRandomInt(0, 1);
+        var operation = getRandomInt(0, 4);
         if (operation === 0) {
-            var scaleFactor = getRandomInt(1, 5);
-            dstWidth = image.width / scaleFactor;
-            dstHeight = image.height / scaleFactor;            
-        } else {
             var scaleFactor = getRandomInt(1, 2);
             dstWidth = image.width * scaleFactor;
             dstHeight = image.height * scaleFactor;
+        } else {
+            var scaleFactor = getRandomInt(1, 5);
+            dstWidth = image.width / scaleFactor;
+            dstHeight = image.height / scaleFactor;            
         }
 
         if (widthStart + dstWidth > canvas.width) {
@@ -104,7 +104,6 @@ function Shuffle(pContainer) {
         if (heightStart + dstHeight > canvas.height) {
             heightStart -= Math.abs((heightStart + dstHeight) - canvas.height);
         }
-
 
         context.drawImage(image, widthStart, heightStart, dstWidth, dstHeight);
     };
