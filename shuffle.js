@@ -153,10 +153,21 @@ function Shuffle(pContainer) {
         context.fill();
     };
 
-    this.saveImage = function() {
+    this.saveImage = function(filename) {
         var data = canvas.toDataURL('image/png');
         var capture = data.replace(/^data:image\/[^;]*/, 'data:application/octet-stream;');
-        return capture;
+
+        var a = document.createElement('a');
+        a.href = capture;
+        a.download = filename + fileextension;
+
+        a.style.display = 'none'; // hide
+        document.body.appendChild(a);
+        a.click();
+
+        setTimeout(function() {
+            document.body.removeChild(a);
+        }, 100);
    };
 
     this.setBackground = function(color) {

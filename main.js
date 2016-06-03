@@ -18,7 +18,7 @@ window.onload = function() {
 
     save.on('click', function() {
         console.log('click save');
-        location.href = shuffle.saveImage();
+        shuffle.saveImage('shuffle');
     });
 
     clear.on('click', function() {
